@@ -1,0 +1,31 @@
+
+import RPi.GPIO as GPIO
+from time import sleep
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4,GPIO.OUT)
+
+
+print("Argument List:",
+       str(sys.argv))
+ 
+if  len(sys.argv) == 2:
+    if sys.argv[1] == 'start':
+       GPIO.output(4,GPIO.HIGH)
+
+       try:
+          while True:
+          # do nothing
+            sleep(1)
+
+       except KeyboardInterrupt:
+            GPIO.cleanup()
+            print ("\nBye")
+
+    elif sys.argv[1] == 'stop':
+       GPIO.output(4,GPIO.LOW)
+       sleep(0.5)
+       GPIO.cleanup()
+        
+else:
+    print ("wrong arguments, use 'start' OR 'stop'")

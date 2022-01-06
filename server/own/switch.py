@@ -8,8 +8,10 @@ Pid = 0
 GPIO_switch = 24 # GPIO Port where switch is attached
 
 GPIO.setmode(GPIO.BCM) ## Verwende die Nummerierung der PINs (GPIO)
-GPIO.setup(GPIO_switch, GPIO.IN)  ## Setze GPIO Pin "GPIO_switch" auf Eingangssignal (Taster)
 
+
+#GPIO.setup(GPIO_switch, GPIO.IN)  ## Setze GPIO Pin "GPIO_switch" auf Eingangssignal (Taster)
+GPIO.setup(GPIO_switch, GPIO.IN, pull_up_down = GPIO.PUD_UP)  ## Setze GPIO Pin "GPIO_switch" auf Eingangssignal (Taster) -> Temp for Test (onboard PullUP)
 
 # Callback-Funktion
 def Interrupt(channel):
@@ -18,26 +20,26 @@ def Interrupt(channel):
         if Counter == 0:
                 #subprocess.call(["do 0!"])
                 print("off")
-                subprocess.Popen(['curl  API call....'], shell = True)
+                subprocess.Popen(['curl -X POST http://1.1.2.90:8080/api/effect/active -H "Content-Type: application/json" -d \'{  "effect": "effect_off" }\''], shell = True)
                 #print(process.pid)
                 #Pid = process.pid
                 Counter += 1
         elif Counter == 1:
                 #subprocess.call(["do 1!"])
                 print("single")
-                subprocess.Popen(['sudo killall python3; sudo python3 /home/pi/dancyPi-audio-reactive-led/python/visualization.py spectrum'], shell = True)
+                subprocess.Popen(['curl -X POST http://1.1.2.90:8080/api/effect/active -H "Content-Type: application/json" -d \'{  "effect": "effect_single" }\''], shell = True)
                 #print(process.pid)
                 #Pid = process.pid
                 Counter += 1
         elif Counter == 2:
                 #subprocess.call(["do 2!"])
                 print("VU_Meter")
-                subprocess.Popen(['sudo killall python3; sudo python3 /home/pi/dancyPi-audio-reactive-led/python/visualization.py energy'], shell = True)
+                subprocess.Popen(['curl -X POST http://1.1.2.90:8080/api/effect/active -H "Content-Type: application/json" -d \'{  "effect": "effect_vu_meter" }\''], shell = True)
                 Counter += 1 
         elif Counter == 3:
                 #subprocess.call(["do 3!"])
                 print("SPectrum_Analyzer")
-                subprocess.Popen(['sudo killall python3; sudo python3 /home/pi/dancyPi-audio-reactive-led/python/off.py'], shell = True)
+                subprocess.Popen(['curl -X POST http://1.1.2.90:8080/api/effect/active -H "Content-Type: application/json" -d \'{  "effect": "effect_spectrum_analyzer" }\''], shell = True)
                 Counter = 0 
         else:
                 print("counter error")
@@ -56,3 +58,4 @@ try:
 except KeyboardInterrupt:
         GPIO.cleanup()
         print ("\nBye")
+

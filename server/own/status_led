@@ -2,6 +2,25 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
+
+#### Startup Script ####
+####### /lib/systemd/system/led.dancing.service #########
+#[Unit]
+#Description=Foobar Service
+#After=multi-user.target
+#
+#[Service]
+#Type=idle
+#ExecStart=sudo python3 /home/pi/status_led.py start
+#ExecStop=sudo python3 /home/pi/status_led.py stop
+#
+#
+#[Install]
+#WantedBy=multi-user.target
+
+
+
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(4,GPIO.OUT)
 

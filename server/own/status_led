@@ -4,7 +4,7 @@ from time import sleep
 
 
 #### Startup Script ####
-####### /lib/systemd/system/led.dancing.service #########
+####### /lib/systemd/system/status_led.service #########
 #[Unit]
 #Description=Foobar Service
 #After=multi-user.target
